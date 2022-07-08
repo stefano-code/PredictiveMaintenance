@@ -1,4 +1,6 @@
 #include <jni.h>
+#include "pca\PCA.h"
+#include "pca\PCA_Scores.h"
 #include "debug\Logger.hpp"
 #include "os\Thread.hpp"
 
@@ -9,15 +11,16 @@ static jmethodID onScoresReady = NULL;
 static jmethodID onCheckTemperature = NULL;
 static jmethodID onCheckOrientation = NULL;
 
-typedef struct{
-    float t_square;
-    float spe;
-}Scores;
+//typedef struct{
+//    float t_square;
+//    float spe;
+//}Scores;
 
 void preprocessing(jfloat*);
-Scores executePCA(jfloat*);
+//Scores executePCA(jfloat*);
 jint checkTemperature(jfloat*);
 jint checkOrientation(jfloat*);
+static PCA pca = PCA();
 
 extern "C" JNIEXPORT void JNICALL Java_com_technogym_android_predictivemaintenance_ml_PCA_init(JNIEnv *env, jobject thiz)
 {
@@ -101,10 +104,9 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_technogym_android_predictivemainte
     for(int i = size-1; i > size-10 ; i--)
         Log.Append("PCA sample %d", i).Append(" value %f", samples[i]).EndLine();
 
-
-    preprocessing(samples);
-    Scores scores = executePCA(samples);
-
+    pca.preprocessing(samples);
+    //SSpreprocessing(samples);
+    PCA_Scores scores = pca.execute(samples);
 
     (*env).ReleaseFloatArrayElements(_samples, samples, 0);
 
@@ -113,8 +115,8 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_technogym_android_predictivemainte
     jobject pca_scores_instance = (*env).NewObject(pca_scores_class, pca_scores_constructor);
     jfieldID t_square_field = (*env).GetFieldID(pca_scores_class, "t_square", "F");
     jfieldID spe_field = (*env).GetFieldID(pca_scores_class, "spe", "F");
-    (*env).SetFloatField(pca_scores_instance , t_square_field, scores.t_square);
-    (*env).SetFloatField(pca_scores_instance , spe_field, scores.spe);
+    (*env).SetFloatField(pca_scores_instance , t_square_field, (jfloat) scores.getTSquare());
+    (*env).SetFloatField(pca_scores_instance , spe_field, (jfloat) scores.getSpe());
 
     if(NULL != gObj && NULL != onScoresReady)
         (*env).CallVoidMethod(gObj, onScoresReady, pca_scores_instance);
@@ -137,20 +139,20 @@ jint checkOrientation(jfloat* samples)
     return 0;
 }
 
-void preprocessing(jfloat* samples)
-{
-    Log.Append("Start preprocessing").EndLine();
-    Thread::Sleep(1000);
-    Log.Append("End preprocessing").EndLine();
-}
+//void preprocessing(jfloat* samples)
+//{
+//    Log.Append("Start preprocessing").EndLine();
+//    Thread::Sleep(1000);
+//    Log.Append("End preprocessing").EndLine();
+//}
 
-Scores executePCA(jfloat* samples)
-{
-    Log.Append("Start executePCA").EndLine();
-    Thread::Sleep(1000);
-    Scores scores;
-    scores.t_square = 2.2f;
-    scores.spe = 4.2f;
-    Log.Append("End executePCA").EndLine();
-    return scores;
-}
+//Scores executePCA(jfloat* samples)
+//{
+//    Log.Append("Start executePCA").EndLine();
+//    Thread::Sleep(1000);
+//    Scores scores;
+//    scores.t_square = 2.2f;
+//    scores.spe = 4.2f;
+//    Log.Append("End executePCA").EndLine();
+//    return scores;
+//}

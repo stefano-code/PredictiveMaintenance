@@ -38,6 +38,13 @@ public class MainActivity extends AppCompatActivity
         Button btnClassifier = findViewById(R.id.btnClassifier);
         btnClassifier.setOnClickListener((View v) -> classifierExecute());
     }
+    /*
+    Samples[] samples = new Samples[](1024)
+    Float[] std_samples = pca.preprocessing(samples);
+
+    float[] samples = new float[1024];
+
+     */
 
     private void pcaExecute()
     {
@@ -83,7 +90,7 @@ public class MainActivity extends AppCompatActivity
 
             private ByteBuffer dataForsimulation()
             {
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.img0)).getBitmap(), INPUT_SIZE, INPUT_SIZE, false);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(((BitmapDrawable) getResources().getDrawable(R.drawable.img1)).getBitmap(), INPUT_SIZE, INPUT_SIZE, false);
                 ByteBuffer byteBuffer;
                 byteBuffer = ByteBuffer.allocateDirect(4/* dimensione float*/* INPUT_SIZE * INPUT_SIZE * PIXEL_SIZE);
                 byteBuffer.order(ByteOrder.nativeOrder());

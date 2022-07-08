@@ -22,7 +22,13 @@ LOCAL_SRC_FILES         := 	pca_native.cpp \
 							os\Semaphore.cpp \
 							os\CriticalSectionLock.cpp \
 							os\Thread.cpp \
-							debug\Logger.cpp
+							debug\Logger.cpp \
+							pca\PCA.cpp \
+							pca\PCA_Scores.cpp \
+							pca\pca_impl\PCA_Impl
+#
+#LOCAL_MODULE            := pca_impl
+#LOCAL_SRC_FILES         := 	pca\pca_impl\PCA_Impl
 
 LOCAL_CPPFLAGS += -fexceptions  -std=c++11
 
