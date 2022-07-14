@@ -32,10 +32,12 @@ public class AnomalyClassifier
     public AnomalyClassifier(Context ctx)
     {
         Interpreter.Options options = new Interpreter.Options();
-        options.setNumThreads(5);
-        options.setUseNNAPI(true);
-        interpreter = new Interpreter(loadModelFile(ctx.getAssets(), "mobilenet_v1_1.0_224.tflite"), options);
-        labelList = loadLabelList(ctx.getAssets(), "mobilenet_v1_1.0_224.txt");
+//        options.setNumThreads(5);
+//        options.setUseNNAPI(true);
+//        interpreter = new Interpreter(loadModelFile(ctx.getAssets(), "mobilenet_v1_1.0_224.tflite"), options);
+//        labelList = loadLabelList(ctx.getAssets(), "mobilenet_v1_1.0_224.txt");
+        interpreter = new Interpreter(loadModelFile(ctx.getAssets(), "classificatore.tflite"), options);
+        labelList = loadLabelList(ctx.getAssets(), "labels.txt");
     }
 
     private MappedByteBuffer loadModelFile(AssetManager assetManager, String MODEL_FILE)
